@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>PhyWorld: Physics-Faithful World Model for Video Generation</title>
+  <meta name="description" content="PhyWorld is a physics-faithful video generation world model post-trained from Wan2.2-I2V-A14B with two-stage flow-matching plus DPO over physics preference pairs, evaluated on VBench and the PhyGround physical-faithfulness benchmark.">
+  <meta name="keywords" content="PhyWorld, world model, video generation, physics, embodied AI, DPO, flow matching, PhyGround, Wan, Northeastern">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:title" content="PhyWorld: Physics-Faithful World Model for Video Generation">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://nu-world-model-embodied-ai.github.io/PhyWorld/static/images/teaser.png">
+  <meta property="og:url" content="https://nu-world-model-embodied-ai.github.io/PhyWorld/">
+  <meta property="og:description" content="A physics-faithful video-generation world model trained against the PhyGround benchmark.">
+  <meta name="twitter:title" content="PhyWorld: Physics-Faithful World Model for Video Generation">
+  <meta name="twitter:description" content="A physics-faithful video-generation world model trained against the PhyGround benchmark.">
+  <meta name="twitter:image" content="https://nu-world-model-embodied-ai.github.io/PhyWorld/static/images/teaser.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro|Roboto+Mono" rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="stylesheet" href="./static/css/phyworld.css">
+  <link rel="icon" href="./static/images/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="./static/images/favicon-32.png">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+
+<body>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered hero-card">
+          <h1 class="title publication-title">
+            <img class="hero-logo" src="static/images/phyworld_logo.png" alt="PhyWorld logo" onerror="this.style.display='none'">
+            <span class="hero-title-text">PhyWorld</span>
+          </h1>
+          <h2 class="subtitle publication-subtitle">Physics-Faithful World Model for Video Generation</h2>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><a href="https://puzhao.info/" target="_blank" rel="noopener"><strong>Pu Zhao</strong></a><sup>*1</sup>,</span>
+            <span class="author-block"><a href="https://lukelin-web.github.io/" target="_blank" rel="noopener"><strong>Juyi Lin</strong></a><sup>*1</sup>,</span>
+            <span class="author-block"><strong>Timothy Rupprecht</strong><sup>1</sup>,</span>
+            <span class="author-block"><a href="https://arashakb.github.io/" target="_blank" rel="noopener"><strong>Arash Akbari</strong></a><sup>1</sup>,</span>
+            <span class="author-block"><strong>Chence Yang</strong><sup>2</sup>,</span>
+            <span class="author-block"><strong>Rahul Chowdhury</strong><sup>1</sup>,</span>
+            <span class="author-block"><strong>Elaheh Motamedi</strong><sup>1</sup>,</span>
+            <br>
+            <span class="author-block"><a href="https://scholar.google.com/citations?user=rfnVbtEAAAAJ" target="_blank" rel="noopener"><strong>Arman Akbari</strong></a><sup>1</sup>,</span>
+            <span class="author-block"><a href="https://freeman.tulane.edu/faculty-research/management-science/yumei-he" target="_blank" rel="noopener"><strong>Yumei He</strong></a><sup>3</sup>,</span>
+            <span class="author-block"><strong>Chen Wang</strong><sup>4</sup>,</span>
+            <span class="author-block"><strong>Geng Yuan</strong><sup>2</sup>,</span>
+            <span class="author-block"><strong>Weiwei Chen</strong><sup>4</sup>,</span>
+            <span class="author-block"><a href="https://www.yanzhiwang.com/" target="_blank" rel="noopener"><strong>Yanzhi Wang</strong></a><sup>1</sup></span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>Northeastern University,</span>
+            <span class="author-block"><sup>2</sup>University of Georgia,</span>
+            <span class="author-block"><sup>3</sup>Tulane University,</span>
+            <span class="author-block"><sup>4</sup>EmbodyX</span>
+          </div>
+          <p class="equal-contrib"><sup>*</sup>Equal contribution.</p>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <span class="link-block">
+                <a href="https://arxiv.org/"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://github.com/NU-World-Model-Embodied-AI/PhyWorld"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fab fa-github"></i></span>
+                  <span>Code</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://huggingface.co/NU-World-Model-Embodied-AI/phyworld"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fas fa-robot"></i></span>
+                  <span>Model</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://phyground.github.io/"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fas fa-ruler-combined"></i></span>
+                  <span>PhyGround</span>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <img src="static/images/teaser.png" alt="Overview of PhyWorld framework" onerror="this.style.display='none'">
+      <h2 class="subtitle has-text-centered teaser-caption">
+        <strong>Overview of PhyWorld.</strong> Starting from Wan2.2-I2V-A14B, we (1) fine-tune with flow matching on video-to-video continuation for temporal consistency, then (2) align dynamics with physical laws via Direct Preference Optimization (DPO) over physics preference pairs drawn from the PhyGround human-annotation pool. The result is a world model that produces temporally coherent and physically faithful scene continuations.
+      </h2>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>World simulators can provide safe and scalable environments for training Physical AI systems before real-world deployment. Large video generation models are emerging as a promising basis for such simulators because they can generate diverse and realistic visual futures. However, using them as world simulators requires <em>physically faithful</em> video continuations: generated videos that preserve the physical state implied by the conditioning input, and evolve in ways consistent with basic physical principles. We propose <strong>PhyWorld</strong>, a video-generation world model designed to produce temporally coherent and physically faithful scene continuations through two-stage post-training.</p>
+          <p>In the first stage, we improve video-to-video continuation with <strong>flow-matching fine-tuning</strong>, encouraging stable visual attributes and coherent motion dynamics across frames. In the second stage, we align generated dynamics with physical principles using <strong>Direct Preference Optimization (DPO)</strong> over physics preference pairs, guiding the model toward outputs with higher physical plausibility. To evaluate PhyWorld, we use both standard video-quality benchmarks and a dedicated physical-faithfulness benchmark with per-law scoring. Experiments show that PhyWorld improves video consistency, achieving an average score of <strong>0.769</strong> on VBench compared with 0.756 or below for state-of-the-art baselines, and reaches an average score of <strong>3.09</strong> on our physical-faithfulness benchmark compared with 2.99 for the strongest baseline. These results suggest that post-training large video generation models with continuation and physics-preference signals can make them more effective world simulators for Physical AI.</p>
+        </div>
+
+        <div class="highlights-strip">
+          <div class="highlight-card">
+            <div class="highlight-number">0.769</div>
+            <div class="highlight-label">VBench overall</div>
+            <span class="highlight-delta">+0.013 vs. base</span>
+          </div>
+          <div class="highlight-card">
+            <div class="highlight-number">3.09</div>
+            <div class="highlight-label">PhyGround physical-faithfulness</div>
+            <span class="highlight-delta">+0.10 vs. base</span>
+          </div>
+          <div class="highlight-card">
+            <div class="highlight-number">+0.21</div>
+            <div class="highlight-label">Optical-physics gain</div>
+            <span class="highlight-delta">over Wan2.2-I2V-A14B</span>
+          </div>
+          <div class="highlight-card">
+            <div class="highlight-number">16 &times; H100</div>
+            <div class="highlight-label">DPO post-training</div>
+            <span class="highlight-delta">2 epochs / 250 steps</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section method-section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3">Method</h2>
+    <div class="content">
+      <p class="has-text-justified">
+        PhyWorld is post-trained from <a href="https://github.com/Wan-Video/Wan2.2" target="_blank" rel="noopener">Wan2.2-I2V-A14B</a> in two stages. Stage&nbsp;1 enhances physical consistency through flow-matching fine-tuning on a video-to-video continuation pipeline. Stage&nbsp;2 enforces physical laws through reinforcement learning with Direct Preference Optimization (DPO), using human-annotated preference pairs drawn directly from the <a href="https://phyground.github.io/" target="_blank" rel="noopener">PhyGround</a> evaluation pool.
+      </p>
+
+      <div class="framework-figure">
+        <img src="static/images/framework.png" alt="PhyWorld two-stage training framework" onerror="this.parentNode.style.display='none'">
+        <div class="framework-caption">
+          Figure&nbsp;1. Framework overview. Stage&nbsp;1 fine-tunes with flow matching for temporal consistency; Stage&nbsp;2 applies LoRA-DPO over physics preference pairs to enforce physical principles.
+        </div>
+      </div>
+
+      <div class="stage-grid">
+        <div class="stage-card stage-1">
+          <h4><span class="stage-tag">Stage 1</span> Physical Consistency Enhancement</h4>
+          <p>
+            Video-to-video continuation with Wan-VAE conditioning, a binary mask delimiting preserved vs. synthesised frames, and a CLIP global-context embedding injected via decoupled cross-attention. The DiT is trained with rectified-flow matching on OpenVid-1M clips, filtered for inter-frame CLIP cosine similarity and per-clip optical-flow magnitude, yielding smooth, motion-controlled supervision.
+          </p>
+        </div>
+        <div class="stage-card stage-2">
+          <h4><span class="stage-tag">Stage 2</span> Physics Enforcement via DPO</h4>
+          <p>
+            A rank-16 LoRA adapter is wrapped around the Wan2.2 denoiser's attention and feed-forward projections. Preference pairs are derived from PhyGround human ratings: within-prompt winner/loser pairs with score margin &geq; 1.0. A class-balanced 1,000-pair trainset spans seven physical-event classes; DPO is restricted to the high-noise window <em>t</em>&thinsp;&isin;&thinsp;[901, 999] with &beta;&nbsp;=&nbsp;100 to suppress reward hacking.
+          </p>
+        </div>
+      </div>
+
+      <h3 class="title is-4">Preference data, grounded in PhyGround</h3>
+      <p class="has-text-justified">
+        Stage&nbsp;2 reuses the 2,000 human-rated videos behind the PhyGround benchmark (~350 raters, ~4,500 cleaned annotations on a 1&ndash;5 Likert scale across semantic alignment, physical-temporal validity, and persistence). Pairs are produced by a four-stage content-addressed pipeline (T0&nbsp;score &rarr; T1&nbsp;pair &rarr; T2&nbsp;encode &rarr; T3&nbsp;subset), with a 42-prompt holdout reserved for validation. The final trainset contains 1,000 pairs over 208 conditioning-image groups, class-balanced over collision&nbsp;/&nbsp;rebound, destruction&nbsp;/&nbsp;deformation, fluids, shadow&nbsp;/&nbsp;reflection, chain&nbsp;/&nbsp;multi-stage, rolling&nbsp;/&nbsp;sliding, and throwing&nbsp;/&nbsp;ballistic events.
+      </p>
+
+      <h3 class="title is-4">Evaluation protocol</h3>
+      <p class="has-text-justified">
+        We evaluate generation quality with 500 random prompts from <a href="https://vchitect.github.io/VBench-project/" target="_blank" rel="noopener">VBench</a> at 480p, reporting subject consistency, background consistency, motion smoothness, dynamic degree, aesthetic quality, and imaging quality. For physical faithfulness we use PhyGround's 250-prompt TI2V benchmark and its released PhyJudge-9B judge model under deterministic decoding, with semantic alignment&nbsp;(SA), physical-temporal validity&nbsp;(PTV), and persistence as general dimensions, and solid-body, fluid, and optical pools as per-domain physics scores.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="section leaderboard-section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">VBench &mdash; Generation Quality</h2>
+    <p class="has-text-centered leaderboard-intro">
+      Subject consistency, background consistency, motion smoothness, dynamic degree, aesthetic and imaging quality on VBench. Higher is better.
+    </p>
+    <div class="leaderboard-wrap">
+      <table class="leaderboard">
+        <thead>
+          <tr class="group-row">
+            <th class="rank-col" rowspan="2">#</th>
+            <th class="model-col" rowspan="2">Model</th>
+            <th class="group-vbench" colspan="6">VBench dimensions</th>
+            <th class="group-overall" rowspan="2">Avg.</th>
+          </tr>
+          <tr class="sub-row">
+            <th>Subject<br>consistency</th>
+            <th>Background<br>consistency</th>
+            <th>Motion<br>smoothness</th>
+            <th>Dynamic<br>degree</th>
+            <th>Aesthetic<br>quality</th>
+            <th>Imaging<br>quality</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="ours-row">
+            <td class="rank-col">1</td>
+            <td class="model-col"><span class="model-name">PhyWorld</span> <span class="ours-tag">Ours</span></td>
+            <td class="cell-best">0.932</td>
+            <td class="cell-best">0.944</td>
+            <td class="cell-best">0.986</td>
+            <td class="cell-best">0.564</td>
+            <td class="cell-best">0.555</td>
+            <td class="cell-best">0.632</td>
+            <td class="cell-best">0.769</td>
+          </tr>
+          <tr>
+            <td class="rank-col">2</td>
+            <td class="model-col"><span class="model-name">Wan2.2-I2V-A14B</span></td>
+            <td class="cell-second">0.912</td>
+            <td class="cell-second">0.928</td>
+            <td>0.977</td>
+            <td>0.554</td>
+            <td class="cell-second">0.543</td>
+            <td>0.622</td>
+            <td class="cell-second">0.756</td>
+          </tr>
+          <tr>
+            <td class="rank-col">3</td>
+            <td class="model-col"><span class="model-name">Cosmos-14B</span></td>
+            <td>0.899</td>
+            <td>0.923</td>
+            <td>0.973</td>
+            <td>0.559</td>
+            <td>0.536</td>
+            <td class="cell-second">0.629</td>
+            <td>0.753</td>
+          </tr>
+          <tr>
+            <td class="rank-col">4</td>
+            <td class="model-col"><span class="model-name">LTX-2.3-22B</span></td>
+            <td>0.894</td>
+            <td>0.918</td>
+            <td class="cell-second">0.982</td>
+            <td>0.549</td>
+            <td>0.532</td>
+            <td>0.626</td>
+            <td>0.751</td>
+          </tr>
+          <tr>
+            <td class="rank-col">5</td>
+            <td class="model-col"><span class="model-name">OmniWeaving</span></td>
+            <td>0.903</td>
+            <td>0.907</td>
+            <td>0.972</td>
+            <td class="cell-second">0.556</td>
+            <td>0.541</td>
+            <td>0.621</td>
+            <td>0.750</td>
+          </tr>
+          <tr>
+            <td class="rank-col">6</td>
+            <td class="model-col"><span class="model-name">Cosmos-2-2B</span></td>
+            <td>0.887</td>
+            <td>0.905</td>
+            <td>0.964</td>
+            <td>0.543</td>
+            <td>0.524</td>
+            <td>0.608</td>
+            <td>0.739</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="leaderboard-legend">
+        Source: paper Table&nbsp;3, 500 random VBench prompts at 480p.
+        <span class="cell-best legend-swatch">■</span>&nbsp;best&nbsp;&nbsp;
+        <span class="cell-second legend-swatch">■</span>&nbsp;second.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="section leaderboard-section" style="padding-top: 1rem;">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">PhyGround &mdash; Physical Faithfulness</h2>
+    <p class="has-text-centered leaderboard-intro">
+      Scored by PhyJudge-9B on PhyGround's 250-prompt humaneval set, 1&ndash;5 scale (higher is better).
+      SA / PTV / Persistence are per-video general dimensions; Solid-Body / Fluid / Optical are pooled per (video, law) units within each domain.
+    </p>
+    <div class="leaderboard-wrap">
+      <table class="leaderboard">
+        <thead>
+          <tr class="group-row">
+            <th class="rank-col" rowspan="2">#</th>
+            <th class="model-col" rowspan="2">Model</th>
+            <th class="group-general" colspan="3">General quality</th>
+            <th class="group-domain" colspan="3">Physics adherence</th>
+            <th class="group-overall" rowspan="2">Overall</th>
+          </tr>
+          <tr class="sub-row">
+            <th>SA</th>
+            <th>PTV</th>
+            <th>Persist.</th>
+            <th>Solid-Body</th>
+            <th>Fluid</th>
+            <th>Optical</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="ours-row">
+            <td class="rank-col">1</td>
+            <td class="model-col"><span class="model-name">PhyWorld</span> <span class="ours-tag">Ours</span></td>
+            <td class="cell-best">2.78</td>
+            <td class="cell-best">3.07</td>
+            <td class="cell-best">3.23</td>
+            <td class="cell-best">2.84</td>
+            <td class="cell-best">3.04</td>
+            <td class="cell-best">3.57</td>
+            <td class="cell-best">3.09</td>
+          </tr>
+          <tr>
+            <td class="rank-col">2</td>
+            <td class="model-col"><span class="model-name">Wan2.2-I2V-A14B</span></td>
+            <td class="cell-second">2.72</td>
+            <td class="cell-second">2.97</td>
+            <td class="cell-second">3.08</td>
+            <td class="cell-second">2.79</td>
+            <td class="cell-second">3.03</td>
+            <td>3.36</td>
+            <td class="cell-second">2.99</td>
+          </tr>
+          <tr>
+            <td class="rank-col">3</td>
+            <td class="model-col"><span class="model-name">Cosmos-14B</span></td>
+            <td>2.60</td>
+            <td>2.73</td>
+            <td>3.07</td>
+            <td>2.72</td>
+            <td>2.92</td>
+            <td class="cell-second">3.53</td>
+            <td>2.80</td>
+          </tr>
+          <tr>
+            <td class="rank-col">4</td>
+            <td class="model-col"><span class="model-name">OmniWeaving</span></td>
+            <td>2.68</td>
+            <td>2.73</td>
+            <td>2.92</td>
+            <td>2.71</td>
+            <td>2.99</td>
+            <td>3.13</td>
+            <td>2.78</td>
+          </tr>
+          <tr>
+            <td class="rank-col">5</td>
+            <td class="model-col"><span class="model-name">LTX-2.3-22B</span></td>
+            <td>2.63</td>
+            <td>2.79</td>
+            <td>2.91</td>
+            <td>2.55</td>
+            <td>3.02</td>
+            <td>3.21</td>
+            <td>2.72</td>
+          </tr>
+          <tr>
+            <td class="rank-col">6</td>
+            <td class="model-col"><span class="model-name">Wan2.2-TI2V-5B</span></td>
+            <td>2.48</td>
+            <td>2.70</td>
+            <td>2.76</td>
+            <td>2.61</td>
+            <td>3.01</td>
+            <td>3.45</td>
+            <td>2.68</td>
+          </tr>
+          <tr>
+            <td class="rank-col">7</td>
+            <td class="model-col"><span class="model-name">LTX-2-19B</span></td>
+            <td>2.50</td>
+            <td>2.62</td>
+            <td>2.79</td>
+            <td>2.49</td>
+            <td>3.01</td>
+            <td>3.09</td>
+            <td>2.62</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="leaderboard-legend">
+        Source: paper Table&nbsp;4. Overall = 0.5&nbsp;&times;&nbsp;mean(SA,&nbsp;PTV,&nbsp;Persist.) + 0.5&nbsp;&times;&nbsp;pooled mean over (video,&nbsp;law) units across the three domains.
+        <span class="cell-best legend-swatch">■</span>&nbsp;best&nbsp;&nbsp;
+        <span class="cell-second legend-swatch">■</span>&nbsp;second.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-light is-small featured-section">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Featured outputs</h2>
+      <p class="featured-prompt has-text-centered">Browse a selection of PhyWorld&rsquo;s video-to-video continuations.</p>
+      <p class="featured-laws has-text-centered">All clips conditioned on a single input frame; the model continues the scene with physically faithful dynamics.</p>
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item has-text-centered">
+          <video autoplay controls muted loop playsinline>
+            <source src="static/videos/phyworld/video_115.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption ours-caption">PhyWorld &mdash; sample 115</p>
+        </div>
+        <div class="item has-text-centered">
+          <video autoplay controls muted loop playsinline>
+            <source src="static/videos/phyworld/video_147.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption ours-caption">PhyWorld &mdash; sample 147</p>
+        </div>
+        <div class="item has-text-centered">
+          <video autoplay controls muted loop playsinline>
+            <source src="static/videos/phyworld/video_234.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption ours-caption">PhyWorld &mdash; sample 234</p>
+        </div>
+        <div class="item has-text-centered">
+          <video autoplay controls muted loop playsinline>
+            <source src="static/videos/phyworld/video_282.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption ours-caption">PhyWorld &mdash; sample 282</p>
+        </div>
+        <div class="item has-text-centered">
+          <video autoplay controls muted loop playsinline>
+            <source src="static/videos/phyworld/video_518.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption ours-caption">PhyWorld &mdash; sample 518</p>
+        </div>
+        <div class="item has-text-centered">
+          <video autoplay controls muted loop playsinline>
+            <source src="static/videos/phyworld/video_705.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption ours-caption">PhyWorld &mdash; sample 705</p>
+        </div>
+        <div class="item has-text-centered">
+          <video autoplay controls muted loop playsinline>
+            <source src="static/videos/phyworld/video_826.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption ours-caption">PhyWorld &mdash; sample 826</p>
+        </div>
+      </div>
+      <p class="featured-caption has-text-centered">Scroll through to preview PhyWorld&rsquo;s outputs across diverse prompts. Head-to-head comparisons against baselines are below.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section comparison-section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Head-to-head video comparison</h2>
+    <p class="has-text-centered comparison-intro">
+      Same conditioning input, same prompt, four models compared. PhyWorld preserves the physical state implied by the input frame and produces temporally coherent continuations; SOTA baselines drift in color, background, or object identity, or break under physical interactions.
+    </p>
+
+    <div class="comparison-grid">
+      <div class="comp-header ours-header">PhyWorld (Ours)</div>
+      <div class="comp-header">Cosmos</div>
+      <div class="comp-header">LTX</div>
+      <div class="comp-header">OmniWeave</div>
+
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/phyworld/video_26.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/cosmos/video_26.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/ltx/video_26.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/omniweave/video_26.mp4" type="video/mp4"></video></div>
+
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/phyworld/video_31.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/cosmos/video_31.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/ltx/video_31.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/omniweave/video_31.mp4" type="video/mp4"></video></div>
+
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/phyworld/video_47.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/cosmos/video_47.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/ltx/video_47.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/omniweave/video_47.mp4" type="video/mp4"></video></div>
+
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/phyworld/video_81.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/cosmos/video_81.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/ltx/video_81.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/omniweave/video_81.mp4" type="video/mp4"></video></div>
+
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/phyworld/video_115.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/cosmos/video_115.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/ltx/video_115.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/omniweave/video_115.mp4" type="video/mp4"></video></div>
+
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/phyworld/video_147.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/cosmos/video_147.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/ltx/video_147.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/omniweave/video_147.mp4" type="video/mp4"></video></div>
+
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/phyworld/video_160.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/cosmos/video_160.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/ltx/video_160.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/omniweave/video_160.mp4" type="video/mp4"></video></div>
+
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/phyworld/video_164.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/cosmos/video_164.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/ltx/video_164.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/omniweave/video_164.mp4" type="video/mp4"></video></div>
+
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/phyworld/video_168.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/cosmos/video_168.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/ltx/video_168.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/omniweave/video_168.mp4" type="video/mp4"></video></div>
+
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/phyworld/video_234.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/cosmos/video_234.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/ltx/video_234.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/omniweave/video_234.mp4" type="video/mp4"></video></div>
+
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/phyworld/video_239.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/cosmos/video_239.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/ltx/video_239.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/omniweave/video_239.mp4" type="video/mp4"></video></div>
+
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/phyworld/video_282.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/cosmos/video_282.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/ltx/video_282.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/omniweave/video_282.mp4" type="video/mp4"></video></div>
+
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/phyworld/video_518.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/cosmos/video_518.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/ltx/video_518.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/omniweave/video_518.mp4" type="video/mp4"></video></div>
+
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/phyworld/video_550.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/cosmos/video_550.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/ltx/video_550.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/omniweave/video_550.mp4" type="video/mp4"></video></div>
+
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/phyworld/video_571.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/cosmos/video_571.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/ltx/video_571.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/omniweave/video_571.mp4" type="video/mp4"></video></div>
+
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/phyworld/video_705.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/cosmos/video_705.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/ltx/video_705.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/omniweave/video_705.mp4" type="video/mp4"></video></div>
+
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/phyworld/video_826.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/cosmos/video_826.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/ltx/video_826.mp4" type="video/mp4"></video></div>
+      <div class="comp-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/omniweave/video_826.mp4" type="video/mp4"></video></div>
+    </div>
+    <p class="comparison-caption">
+      Figure&nbsp;2. PhyWorld generates videos with superior physical consistency. Baselines suffer color shift, background change, or object drift; PhyWorld respects the conditioning frame.
+    </p>
+  </div>
+</section>
+
+<section class="section related-section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Related Releases</h2>
+    <div class="related-card">
+      <div class="related-icon">📐</div>
+      <div>
+        <h3>PhyGround &mdash; Benchmarking Physical Reasoning in Generative World Models</h3>
+        <p>
+          The benchmark and judge model that grade PhyWorld. 250 curated prompts, a 13-law taxonomy across solid-body, fluid, and optical domains, a quality-controlled human study with 459 annotators, and the open <strong>PhyJudge-9B</strong> VLM judge. The same human ratings that score every model in our leaderboards also supply the preference pairs that train PhyWorld&rsquo;s Stage&nbsp;2 DPO.
+        </p>
+        <a class="related-link" href="https://phyground.github.io/" target="_blank" rel="noopener">Visit the PhyGround project page &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section bibtex-section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3">BibTeX</h2>
+    <pre class="bibtex"><code>@misc{zhao2026phyworld,
+  title         = {PhyWorld: Physics-Faithful World Model for Video Generation},
+  author        = {Pu Zhao and Juyi Lin and Timothy Rupprecht and Arash Akbari and Chence Yang and Rahul Chowdhury and Elaheh Motamedi and Arman Akbari and Yumei He and Chen Wang and Geng Yuan and Weiwei Chen and Yanzhi Wang},
+  year          = {2026},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CV},
+  url           = {https://huggingface.co/NU-World-Model-Embodied-AI/phyworld}
+}</code></pre>
+  </div>
+</section>
+
+<footer class="footer site-footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <p>
+        &copy; 2026 PhyWorld &middot;
+        <a href="https://github.com/NU-World-Model-Embodied-AI/PhyWorld">Code</a> &middot;
+        <a href="https://huggingface.co/NU-World-Model-Embodied-AI/phyworld">Model</a> &middot;
+        <a href="https://phyground.github.io/">PhyGround</a> &middot;
+        <a href="https://github.com/NU-World-Model-Embodied-AI">NU World-Model &amp; Embodied AI</a>
+      </p>
+      <p class="footer-credit">
+        Page template adapted from <a href="https://phyground.github.io/">PhyGround</a>, <a href="https://openvla.github.io/">OpenVLA</a>, and <a href="https://nerfies.github.io/">Nerfies</a>.
+      </p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
