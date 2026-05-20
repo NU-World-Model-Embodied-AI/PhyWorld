@@ -143,6 +143,5 @@ Pushing to `main` triggers a GitHub Pages rebuild within ~30–60 seconds.
 PhyWorld is post-trained from [Wan2.2-I2V-A14B](https://github.com/Wan-Video/Wan2.2)
 and evaluated with the [PhyGround](https://phyground.github.io/) benchmark
 and its `PhyJudge-9B` judge. The project page template is adapted from
-[PhyGround](https://phyground.github.io/), which in turn builds on
-[OpenVLA](https://openvla.github.io/) and
+[OpenVLA](https://openvla.github.io/), which is based on
 [Nerfies](https://nerfies.github.io/).
