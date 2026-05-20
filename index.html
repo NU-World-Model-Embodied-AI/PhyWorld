@@ -159,6 +159,48 @@
   </div>
 </section>
 
+<section class="section motivation-section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Why physics is hard for video models</h2>
+    <p class="has-text-centered motivation-intro">
+      Prior world-model work is largely <em>Self-Forcing</em> or <em>LongCat</em>-style, focused on ultra-long video generation. These pipelines run into three persistent walls:
+    </p>
+
+    <div class="limit-grid">
+      <div class="limit-card">
+        <h4>Small model size</h4>
+        <p>Ultra-long generation forces compact backbones because of large memory usage at train time, capping visual fidelity.</p>
+      </div>
+      <div class="limit-card">
+        <h4>Consistency, not physics</h4>
+        <p>Existing objectives target temporal smoothness; nothing enforces that motion, contact, or material behavior actually obeys physical law.</p>
+      </div>
+      <div class="limit-card">
+        <h4>Simple prompts, hard outcomes</h4>
+        <p>Even short prompts ("a Newton's cradle") expose limits in ultra-long settings &mdash; the model has to predict a physical chain reaction without an explicit physics signal.</p>
+      </div>
+    </div>
+
+    <h3 class="title is-4 has-text-centered" style="margin-top: 1.6rem;">Even frontier video models break under simple physics</h3>
+    <p class="has-text-centered motivation-intro">
+      The Newton's-cradle test: same prompt, same setup, three frontier video models. None of them get the chain-reaction collision right.
+    </p>
+
+    <div class="failure-grid">
+      <div class="failure-header">NVIDIA Cosmos</div>
+      <div class="failure-header">Google Veo</div>
+      <div class="failure-header">OpenAI Sora</div>
+
+      <div class="failure-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/failures/cosmos.mp4" type="video/mp4"></video></div>
+      <div class="failure-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/failures/veo.mp4" type="video/mp4"></video></div>
+      <div class="failure-cell"><video autoplay muted loop playsinline preload="metadata"><source src="static/videos/failures/sora.mp4" type="video/mp4"></video></div>
+    </div>
+    <p class="failure-caption">
+      Failure cases on a classic physics test &mdash; balls fail to swing, fail to transfer momentum, or float. The gap motivates PhyWorld's explicit two-stage physics post-training.
+    </p>
+  </div>
+</section>
+
 <section class="section method-section">
   <div class="container is-max-desktop">
     <h2 class="title is-3">Method</h2>
