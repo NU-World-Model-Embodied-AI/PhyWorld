@@ -53,6 +53,32 @@
   margin-top: 0.3rem;
 }
 
+.affiliation-logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.8rem 2.4rem;
+  margin: 1.2rem auto 0.4rem auto;
+}
+
+.affiliation-logos img {
+  max-height: 56px;
+  width: auto;
+  object-fit: contain;
+  filter: saturate(0.95);
+}
+
+.affiliation-logos a {
+  display: inline-flex;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .affiliation-logos { gap: 1.2rem 1.4rem; }
+  .affiliation-logos img { max-height: 42px; }
+}
+
 .is-disabled {
   opacity: 0.55;
   cursor: not-allowed !important;
