@@ -8,12 +8,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta property="og:title" content="PhyWorld: Physics-Faithful World Model for Video Generation">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="https://nu-world-model-embodied-ai.github.io/PhyWorld/static/images/framework.png">
+  <meta property="og:image" content="https://nu-world-model-embodied-ai.github.io/PhyWorld/static/images/teaser.png">
   <meta property="og:url" content="https://nu-world-model-embodied-ai.github.io/PhyWorld/">
   <meta property="og:description" content="A physics-faithful video-generation world model trained against the PhyGround benchmark.">
   <meta name="twitter:title" content="PhyWorld: Physics-Faithful World Model for Video Generation">
   <meta name="twitter:description" content="A physics-faithful video-generation world model trained against the PhyGround benchmark.">
-  <meta name="twitter:image" content="https://nu-world-model-embodied-ai.github.io/PhyWorld/static/images/framework.png">
+  <meta name="twitter:image" content="https://nu-world-model-embodied-ai.github.io/PhyWorld/static/images/teaser.png">
   <meta name="twitter:card" content="summary_large_image">
 
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro|Roboto+Mono" rel="stylesheet">
@@ -76,7 +76,7 @@
           <div class="column has-text-centered">
             <div class="publication-links">
               <span class="link-block">
-                <a href="https://arxiv.org/"
+                <a href="https://arxiv.org/abs/2605.19242"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon"><i class="fas fa-file-pdf"></i></span>
                   <span>Paper</span>
@@ -107,6 +107,17 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <img src="static/images/teaser.png" alt="PhyWorld pipeline overview" onerror="this.style.display='none'">
+      <h2 class="subtitle has-text-centered teaser-caption">
+        <strong>PhyWorld pipeline.</strong> We start from an open video-generation base (e.g. Nvidia Cosmos / Wan2.2), modify the encoder for video-to-video continuation to produce <em>PhyWorld-Base</em>, then iterate against the <a href="https://phyground.github.io/">PhyGround</a> benchmark in two loops &mdash; <em>training for continuity</em> via flow matching and <em>training for explicit physics awareness</em> via DPO over PhyGround preference pairs. The resulting <strong>PhyWorld</strong> is a building block for downstream Physical AI: long-horizon planning, multimodality, and robotic policies such as <em>Omni-Robot</em>.
+      </h2>
     </div>
   </div>
 </section>
@@ -590,9 +601,10 @@
   title         = {PhyWorld: Physics-Faithful World Model for Video Generation},
   author        = {Pu Zhao and Juyi Lin and Timothy Rupprecht and Arash Akbari and Chence Yang and Rahul Chowdhury and Elaheh Motamedi and Arman Akbari and Yumei He and Chen Wang and Geng Yuan and Weiwei Chen and Yanzhi Wang},
   year          = {2026},
+  eprint        = {2605.19242},
   archivePrefix = {arXiv},
   primaryClass  = {cs.CV},
-  url           = {https://huggingface.co/NU-World-Model-Embodied-AI/phyworld}
+  url           = {https://arxiv.org/abs/2605.19242}
 }</code></pre>
   </div>
 </section>

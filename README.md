@@ -3,7 +3,7 @@
 # PhyWorld — Physics-Faithful World Model for Video Generation
 
 [![Project page](https://img.shields.io/badge/Project_page-0d9488?style=for-the-badge&logo=githubpages&logoColor=white)](https://nu-world-model-embodied-ai.github.io/PhyWorld/)
-[![Paper](https://img.shields.io/badge/Paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/)
+[![Paper](https://img.shields.io/badge/Paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2605.19242)
 [![Model](https://img.shields.io/badge/model-fcd022?style=for-the-badge&logo=huggingface&logoColor=black)](https://huggingface.co/NU-World-Model-Embodied-AI/phyworld)
 [![PhyGround](https://img.shields.io/badge/sibling-PhyGround-1f6feb?style=for-the-badge)](https://phyground.github.io/)
 
@@ -26,7 +26,7 @@ reaches **0.769** vs. **0.756** or below for SOTA baselines.
 | --- | --- |
 | Live project page | [nu-world-model-embodied-ai.github.io/PhyWorld](https://nu-world-model-embodied-ai.github.io/PhyWorld/) |
 | Model checkpoint | [🤗 NU-World-Model-Embodied-AI/phyworld](https://huggingface.co/NU-World-Model-Embodied-AI/phyworld) |
-| Paper | arXiv (link forthcoming) |
+| Paper | [arXiv:2605.19242](https://arxiv.org/abs/2605.19242) |
 | Sibling benchmark | [PhyGround](https://github.com/NU-World-Model-Embodied-AI/PhyGround) — the benchmark + PhyJudge-9B judge we evaluate against |
 
 ---
@@ -130,9 +130,10 @@ Pushing to `main` triggers a GitHub Pages rebuild within ~30–60 seconds.
   title         = {PhyWorld: Physics-Faithful World Model for Video Generation},
   author        = {Pu Zhao and Juyi Lin and Timothy Rupprecht and Arash Akbari and Chence Yang and Rahul Chowdhury and Elaheh Motamedi and Arman Akbari and Yumei He and Chen Wang and Geng Yuan and Weiwei Chen and Yanzhi Wang},
   year          = {2026},
+  eprint        = {2605.19242},
   archivePrefix = {arXiv},
   primaryClass  = {cs.CV},
-  url           = {https://huggingface.co/NU-World-Model-Embodied-AI/phyworld}
+  url           = {https://arxiv.org/abs/2605.19242}
 }
 ```
 
